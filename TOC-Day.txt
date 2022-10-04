@@ -1,0 +1,155 @@
+
+
+
+#####
+Day-01/02
+
+Red Hat OpenShift Container Platform (RHOCPv4.10) - PaaS
+https://access.redhat.com/products/openshift
+https://access.redhat.com/documentation/en-us/openshift_container_platform/4.10
+
+- Describing the Red Hat OpenShift Container Platform
+- Configuring Authentication and Authorization
+- Configuring Application Security
+- Configuring OpenShift Networking for Applications
+- Controlling Pod Scheduling
+- Managing a Cluster with the Web Console
+
+
+Day-03 
+#Unit-01 - Moving From Kubernetes to OpenShift
+- Demonstrate that OpenShift is Kubernetes by deploying Kubernetes-native applications on OpenShift.
+- Deploy applications on OpenShift using standard Kubernetes resources.
+- Enhance Kubernetes applications using OpenShift extensions from Kubernetes.
+
+Example of deploying Kubernetes Applications on OpenShift
+Example of optimizing Kubernetes Applications for OpenShift
+
+
+#Unit-02 - Introducing Automation with OpenShift
+- Automate OpenShift using scripts and Ansible Playbooks.
+- Extract resource information from OpenShift using JSONPath.
+- Execute cluster operation scripts from inside and outside of OpenShift.
+- Navigate the OpenShift REST API.
+- Automate creation and modification of OpenShift resources using the Ansible k8s modules
+
+Day-04
+Examples:-
+Querying OpenShift Resources 
+- eploying Scripts on OpenShift
+- Navigating the OpenShift REST API
+- Writing Ansible Playbooks to Manage
+- OpenShift Resources
+
+#Unit-03 - Managing OpenShift Operators
+- Manage operators and OpenShift cluster operators.
+- Describe Kubernetes controllers and the operator pattern.
+- Install and troubleshoot operators from the OperatorHub.
+- Identify namespaces and resources of a cluster operator
+
+Example:-
+- Describing Operators 
+- Installing Operators 
+- Managing Cluster Operators 
+
+
+
+Day-04
+#Unit-04 - Implementing GitOps with Jenkins
+- Implement a GitOps workflow using containerized Jenkins to administer an OpenShift cluster.
+- Describe Jenkins concepts and Jenkins Pipeline concepts.
+- Deploy Jenkins on OpenShift using standard templates and image streams.
+- Configure cluster operators using resource files in a declarative fashion.
+- Automate the configuration of cluster operators from resources in Git using Jenkins Pipelines.
+
+Examples:-
+- Deploying Jenkins on OpenShift
+- Configuring OpenShift Resources Using a Declarative GitOps Workflow
+- Configuring OpenShift using GitOps and Jenkins
+
+#Unit-05:- Configuring Enterprise Authentication
+- Configure OpenShift integration with enterprise identity providers
+- Configure OpenShift to authenticate using an IdM user and credentials.
+- Automate group synchronization with an LDAP directory.
+
+Examples:-
+Configuring the LDAP Identity Provider
+Synchronizing OpenShift Groups with LDAP
+
+Day-05
+
+#Unit-06:- Configuring Trusted TLS Certificates
+- Configure trusted TLS certificates for external access to cluster services and applications.
+- Change the wildcard certificate used by the ingress controller operator.
+- Configure an application to use the trusted certificate bundle.
+- Describe common issues with OpenShift certificates.
+
+Example:-
+- Integrating OpenShift with an Enterprise Certificate Authority 
+- Configuring Applications to Trust the Enterprise Certificate Authority 
+- Troubleshooting OpenShift Certificates
+
+
+Day-06
+# Unit-07:- Configuring Dedicated Node Pools
+Add nodes to an OpenShift cluster with custom configurations.
+- Add nodes to an OpenShift cluster on user provisioned infrastructure.
+- Create custom machine configuration pools and edit existing machine configurations.
+
+Example:-
+- Adding Compute Nodes 
+- Creating Custom Machine Config Pools 
+
+
+# Unit-08:- Configuring Persistent Storage
+- Configure storage providers and storage classes to ensure cluster user access to persistent volume resources.
+- Describe the components of the OpenShift storage architecture.
+- Configure an application with shared file storage.
+- Configure a database application with block storage.
+- Use a custom resource to create persistent local volumes.
+
+Example:-
+- Provisioning Shared Storage for Applications
+- Provisioning Block Storage for Databases
+- Provisioning Local Block Storage
+
+
+Day-07
+# Unit-09:- Managing Cluster Monitoring and Metrics
+- Configure and manage the OpenShift monitoring stack.
+- List cluster monitoring features.
+-Send alerts to external locations.
+- Use Prometheus and Grafana to assist in diagnosing cluster problems.
+- Configure Prometheus and Alertmanager to use persistent storage.
+
+Examples:-
+Managing OpenShift Alerts.
+- Troubleshooting Using the Cluster Monitoring Stack
+- Configuring Storage for the Cluster Monitoring Stack 
+ 
+
+# Unit-10:- Provisioning and Inspecting Cluster Logging
+- Deploy and query cluster-wide logging, and diagnose common issues using tools.
+- Deploy and configure cluster logging.
+- Inspect Openshift and application logs using Lucene queries in the Kibana UI.
+- Create charts to visualize logs with Kibana.
+- Diagnose cluster logging problems with debugging and monitoring tools.
+
+
+Example:- 
+- Deploying Cluster Logging 
+- Querying Cluster Logs with Kibana 
+- Visualizing Cluster Logs with Kibana 
+- Diagnosing Cluster Logging Problems 
+
+Day-10
+
+# Unit-11:- Recovering Failed Worker Nodes
+- Inspect, troubleshoot, and remediate worker nodes in a variety of failure scenarios.
+- Profile worker nodes to examine healthy nodes,ensure the node services function properly, 
+  and identify adverse performance or degradation.
+- Diagnose and troubleshoot capacity issues that occur on worker nodes.
+
+Example:- 
+- Profiling Degraded Worker Nodes
+- Troubleshooting Worker Node Capacity Issues
