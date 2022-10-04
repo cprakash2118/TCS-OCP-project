@@ -1,0 +1,33 @@
+    1  ls -lrt
+    2  exit
+    3  ls -lrt
+    4  ls -lrta
+    5  exit
+    6  exit
+    7  oc whoami 
+    8  ssh root@utility 
+    9  mkdir work 
+   10  pwd
+   11  cd work/
+   12  pwd
+   13  ll
+   14  vim mypass.txt
+   15  source mypass.txt 
+   16  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+   17  vim mypass.txt 
+   18  . mypass.txt 
+   19  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+   20  ll
+   21  if [ -f sre_team ]; then
+   22  for x in {1..5}; do if [ -f sre_team ]; then htpasswd -b -B sre_team user$x redhat; else htpasswd -c -b -B sre_team user$x redhat; fi; done
+   23  ll
+   24  cat sre_team 
+   25  for x in {6..10}; do if [ -f devops_team ]; then htpasswd -b -B devops_team user$x redhat; else htpasswd -c -b -B devops_team user$x redhat; fi; done
+   26  ll
+   27  cat devops_team 
+   28  cat sre_team 
+   29  for x in {11..30}; do if [ -f application-01_team ]; then htpasswd -b -B application-01_team user$x redhat; else htpasswd -c -b -B application-01_team user$x redhat; fi; done
+   30  cat application-01_team 
+   31  for x in {31..50}; do if [ -f application-02_team ]; then htpasswd -b -B application-02_team user$x redhat; else htpasswd -c -b -B application-02_team user$x redhat; fi; done
+   32  for x in {51..70}; do if [ -f application-03_team ]; then htpasswd -b -B application-03_team user$x redhat; else htpasswd -c -b -B application-03_team user$x redhat; fi; done
+   33  history > assign-01-step03.txt
