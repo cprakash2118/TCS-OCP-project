@@ -1,0 +1,136 @@
+Scenarios 1-
+  user1-5   (sre_team - sre_team_identity_provider, sre-team-secret)
+  user6-10  (devops_team - devops_team_identity_provider, devops-team-secret)
+  user11-30 (application-01_team - application-01_team_identity_provide, application-01-team-secret)
+  user31-50 (application-02_team - application-02_team_identity_provider, application-02-team-secret)
+  user51-70 (application-03_team - application-03_team_identity_provider, application-03-team-secret)
+  
+Solution#1
+  
+- Login to OCP cluster (OpenShift anywhere - Public/Private/Bare Metal/Virtualization/IBM p/Z/LineOne).
+  RHOSP - RHOCP
+  
+  We have two methods to login to OCP cluster.
+  1) Virtual Users (Identity Provider - htpasswd/LDAP/Keystone/Git Enterprise) - Based on token.
+     via htpasswd we will login to OCP cluster as of now.
+	 
+  2) kubeconfig file (Based on certificate).
+  
+  Step 1) Required kubeadmin's credentials, API url to login to specific OCP cluster.
+          Note: While installing OCP cluster (UPI/IPI) kubeadmin-password/kubeconfig files will be created.
+		vim my_pass.txt  
+		_api_url=
+		_kube_pass=
+		
+		NOte: *** 
+		 - kubeadmin is a default user created at the time of OCP cluster installation.
+		 - kubeadmin is a secret in "kube-system" namespace.
+           $ oc get secret kubeadmin -n kube-system 
+           $ oc delete secret kubeadmin -n kube-system 
+
+  Step 2) source my_pass.txt 
+         $ oc login -u kubeadmin -p ${_kube_pass} ${_api_url}
+      	 $ oc whoami 
+         kube:admin 
+		 NOte: My default "using default namespace).
+		 
+  Step 3) Creating users 
+          htpasswd -c -b -B file_name_upload user_name password
+          htpasswd -b -B file_name_upload user_name password
+		  
+  Step 4) Create secret 
+         oc create secret type name_of_secret --from-file htpasswd=file_name-upload -n namespace 
+		 oc create secret generic name_of_secret --from-file htpasswd=file_name-upload -n openshift-config 
+		 
+  Step 5) UPdate in Oauth file.
+          We has discussed, major 4 regular pods running with imp serviec (oauth,openshift-apiserver,openshift-conroller-manager,coredns)
+          
+          Authentication and authorization (RBAC) handdled by "Oauth" & "openshift-apiserver"
+          INternally it will communicate with "kube-apiserver" and kube-apiserver will connect to "etcd" and based on entry/update it open the socket/connection.
+		  
+		  oc get oauth/cluster -o yaml > oauth.yaml 
+		  
+################################################################
+Scenarios 2-
+  groups:-
+  sre_team_grp   - user1-5
+  devops_team_grp  - user6-10 
+  application-01_team_grp - user11-30
+  application-02_team_grp - user31-50
+  application-03_team_grp - user51-71
+  
+  Solution#2 
+   oc adm groups new group_name 
+   oc adm groups add-user user1 
+   oc adm groups add-user user2 user3 
+   
+   oc get groups 
+
+################################################################
+Scenarios 3-  
+  Setup and implement RBAC 
+  1) Assigned "cluster-admin" role to sre_team_grp
+  2) Delete kubeadmin account (delete kube:admin secret) - kube-system (namespace) 
+  3) self-provisioner remove from groups (system-authenticated-oauth)
+     NOte: By default all users Scenarios of this group (system-authenticated-oauth)
+  4) Assign "self-provisioner" to "devops_team_grp" 
+  5) Assigned "cluster-admin" role to user6 and user10 
+  6) Project creation.
+ 
+Solution 3-
+
+  oc adm policy --help 
+  oc adm policy add-cluster-role-to-group cluster-admin group_name 
+  oc describe clusterrolebindings | grep slef 
+  oc describe clusterrolebindings self-provisiner 
+  oc adm policy remove-cluster-role-from-group cluster-admin group_name
+ 
+################################################################
+Scenarios 4-  
+  Project creation.
+  application-01-project
+  application-02-project 
+  application-03-project 
+  
+  sre_team_project                 (cluster-admin) 
+  devops_team_project              (self-provisioner
+  application-01_team_project      (user11/12/13 - project admin, user14-25 - Edit, user26-30 View)
+  application-02_team_project      (user31/32/33 - project admin, user34-45 - Edit, user46-50 View)
+  application-03_team_project      (user51/52/53 - project admin, user54-65 - Edit, user66-70 View)		  
+		  
+  
+		 
+		 
+################################################################
+Scenarios 5- Deploy application as per below details.
+
+    Project name = application-01_team_project     
+	Application Name mysql 
+	Image used: registry.redhat.io/rhel8/mysql-80:1
+	Environemnt variables as  (MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOSTNAME)
+	user=myuser      
+	password=redhat123 
+	database=test_secrets 
+	hostname=mysql
+
+#################
+apiVersion: "v1"
+kind: "LimitRange"
+metadata:
+name: "resource-limits"
+spec:
+ limits: 
+   - type: "Pod"
+     max:
+       cpu: "2"
+       memory: "1Gi"
+     min:
+       cpu: "100m"
+       memory: "4Mi"
+   - type: "Container"
+     max:
+       cpu: "2"
+       memory: "1Gi"
+     min:
+       cpu: "100m"
+       memory: "4Mi"
