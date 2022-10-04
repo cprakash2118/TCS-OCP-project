@@ -134,3 +134,44 @@ spec:
      min:
        cpu: "100m"
        memory: "4Mi"
+	   
+
+ route_project 
+ Deploy application and setup on route (edge).
+  quay.io/cprakash2118/april-java-unzip-httpd-image-02
+
+ Deploy application and setup on route (passthrogh).
+  quay.io/cprakash2118/april-java-unzip-httpd-image-02
+  
+   Deploy application and setup on route (Re-encryption).
+  quay.io/cprakash2118/april-java-unzip-httpd-image-02
+  
+  
+ ======================
+ oc get pods 
+ quotes 
+ 
+ oc get route 
+ quotes    quotes.apps.ocp4.example.com 
+ 
+ http://quotes.apps.ocp4.example.com
+ 
+ 
+ Step 1) Get the certificate.
+ 
+   key - openssl genrsa -out demo01.key  2048   (Output = demo01.key) 
+   crs - openssl req -new -key demo01.key -out demo01.csr -subj "/C=IN/ST=Karnataka/L=Bangalore/O=Security/OU=IT/CN=edge-quotes.apps.ocp4.example.com"  (demo01.csr) 
+   crt - openssl x509 -req -in demo01.csr -signkey demo01.key -out demo01.crt    (demo01.crt) 
+   
+   oc create route edge name-of_route --service quote --key demo01.key --cert=demo01.crt --hostname edge-quotes.apps.ocp4.example.com
+   
+   oc get route 
+   https://edge-quotes.apps.ocp4.example.com
+   
+   
+ 
+ 
+ 
+ 
+ 
+ 
