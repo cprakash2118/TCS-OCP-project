@@ -1,0 +1,15 @@
+   43  cd ..
+   44  ll
+   45  oc create secret generic sre_team_secret --from-file htpasswd=sre_team -n openshift-config 
+   46  oc create secret generic sre-team-secret --from-file htpasswd=sre_team -n openshift-config 
+   47  oc get secret -n openshift-config 
+   48  ll
+   49  oc create secret generic devops-team-secret --from-file htpasswd=devops_team -n openshift-config 
+   50  oc create secret generic application-01-team-secret --from-file htpasswd=application-01_team -n openshift-config 
+   51  oc create secret generic application-02-team-secret --from-file htpasswd=application-02_team -n openshift-config 
+   52  oc create secret generic application-03-team-secret --from-file htpasswd=application-03_team -n openshift-config 
+   53  oc get secret -n openshift-config 
+   54  oc get secret -n openshift-config  | egrep 'sre|app|devops'
+   55  history 
+   56  history | tail -15 
+   57  history | tail -15 > TCS-OCP-project/assign-01-step04.txt 

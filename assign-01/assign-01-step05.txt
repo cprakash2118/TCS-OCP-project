@@ -1,0 +1,32 @@
+   50  oc create secret generic application-01-team-secret --from-file htpasswd=application-01_team -n openshift-config 
+   51  oc create secret generic application-02-team-secret --from-file htpasswd=application-02_team -n openshift-config 
+   52  oc create secret generic application-03-team-secret --from-file htpasswd=application-03_team -n openshift-config 
+   53  oc get secret -n openshift-config 
+   54  oc get secret -n openshift-config  | egrep 'sre|app|devops'
+   55  history 
+   56  history | tail -15 
+   57  history | tail -15 > TCS-OCP-project/assign-01-step04.txt 
+   58  ll
+   59  oc get oauth/cluster -o yaml > oauth.yaml 
+   60  vim oauth.yaml 
+   61  oc replace -f oauth.yaml 
+   62  vim oauth.yaml 
+   63  oc replace -f oauth.yaml 
+   64  ll
+   65  cp -rpv oauth.yaml TCS-OCP-project/
+   66  oc get oauth/cluster -o yaml > oauth-02.yaml 
+   67  vim oauth-02.yaml 
+   68  oc replace -f oauth-02.yaml 
+   69  oc login -u user1 redhat 
+   70  oc login -u user1 -p redhat 
+   71  for x in {1..70}; do oc login -u user$x redhat ; done
+   72  for x in {1..70}; do oc login -u user$x -p redhat ; done
+   73  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+   74  oc get  users
+   75  oc get  users | grep devops
+   76  oc get  users | grep application-01
+   77  #history > TCS-OCP-project/assign-01-step05.txt
+   78  history
+   79  history tail -30
+   80  history | tail -30
+   81  history | tail -32 > TCS-OCP-project/assign-01-step05.txt

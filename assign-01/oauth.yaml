@@ -1,0 +1,74 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"config.openshift.io/v1","kind":"OAuth","metadata":{"annotations":{},"name":"cluster"},"spec":{"identityProviders":[{"challenge":true,"htpasswd":{"fileData":{"name":"htpasswd-secret"}},"login":true,"mappingMethod":"claim","name":"htpasswd_provider","type":"HTPasswd"}]}}
+    release.openshift.io/create-only: "true"
+  creationTimestamp: "2021-11-16T20:49:48Z"
+  generation: 2
+  managedFields:
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:release.openshift.io/create-only: {}
+      f:spec: {}
+    manager: cluster-version-operator
+    operation: Update
+    time: "2021-11-16T20:49:48Z"
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+      f:spec:
+        f:identityProviders: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: "2021-11-16T21:22:26Z"
+  name: cluster
+  resourceVersion: "33271"
+  selfLink: /apis/config.openshift.io/v1/oauths/cluster
+  uid: a4593e09-d8d9-4b82-964d-3eff1a0574d4
+spec:
+  identityProviders:
+  - htpasswd:
+      fileData:
+        name: htpasswd-secret
+    mappingMethod: claim
+    name: htpasswd_provider
+    type: HTPasswd
+  - htpasswd:
+      fileData:
+        name: sre-team-secret
+    mappingMethod: claim
+    name: sre_team_identity_provider
+    type: HTPasswd
+  - htpasswd:
+      fileData:
+        name: devops-team-secret
+    mappingMethod: claim
+    name: devops_team_identity_provider
+    type: HTPasswd
+  - htpasswd:
+      fileData:
+        name: application-01-team-secret
+    mappingMethod: claim
+    name: application-01_team_identity_provide
+    type: HTPasswd
+  - htpasswd:
+      fileData:
+        name: application-02-team-secret
+    mappingMethod: claim
+    name: application-02_team_identity_provide
+    type: HTPasswd
+  - htpasswd:
+      fileData:
+        name: application-03-team-secret
+    mappingMethod: claim
+    name: application-03_team_identity_provide
+    type: HTPasswd
