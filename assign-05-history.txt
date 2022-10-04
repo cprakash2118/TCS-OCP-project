@@ -1,0 +1,80 @@
+  280  oc get  pods
+  281  oc get pods
+  282  oc new-app --name quotes --docker-image quay.io/cprakash2118/famous-quotes:2.1
+  283  oc get  pods
+  284  oc edit deployment quotes 
+  285  oc get is
+  286  oc get pods
+  287  oc logs quotes-6456b7f685-cczgp
+  288  oc get  pods
+  289  oc get  secret 
+  290  oc set env --from=secret/mysql deployment/quotes --prefix QUOTES_ 
+  291  oc get  pods
+  292  oc get  pods -w
+  293  oc rsh mysql-5986f75bfb-p5f9n 
+  294  oc get  pods
+  295  oc get svc 
+  296  oc describe svc mysql 
+  297  oc describe svc quotes 
+  298  oc det deployment 
+  299  oc get deployment 
+  300  oc get is 
+  301  oc get route 
+  302  oc expose service quotes 
+  303  oc get  routes 
+  304  oc whoami --show-console 
+  305  oc whoami 
+  306  oc rsh mysql-5986f75bfb-p5f9n 
+  307  oc whoami 
+  308  oc logout 
+  309  oc login -u user28 -p redhat 
+  310  oc project -q
+  311  oc get  pods
+  312  oc scale --replicas=2 deployment/mysql 
+  313  oc logout 
+  314  oc login -u user5 -p redhat 
+  315  oc project -q 
+  316  oc create quota --help |less
+  317  #oc create quota my-quota --hard=cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=10
+  318  oc create quota application-01-project-quota --hard=cpu=1,memory=1G,pods=10,services=4,replicationcontrollers=10,secrets=20,persistentvolumeclaims=5 -n application-01-project
+  319  oc describe resourcequotas -n application-01-project
+  320  vim limit.yaml 
+  321  oc create -f limit.yaml --save-config -n application-01-project
+  322  oc describe limitranges -n application-01-project
+  323  oc get pods
+  324  oc new-app --name gmail httpd 
+  325  oc get  pods
+  326  oc describe groups.user.openshift.io |less
+  327* oc who
+  328  oc describe pod gmail-75d47f9d44-bg22t |less
+  329  oc describe limitranges -n application-01-project
+  330  oc describe resourcequotas 
+  331  oc login -u user18 -p redhat
+  332  oc get  pods
+  333  oc new-app --name gpay httpd 
+  334  oc get  pods
+  335  oc get  svc 
+  336  oc get  deployment 
+  337  oc get pods
+  338  oc get pods -a
+  339  oc get pods --help |less
+  340  oc get  pods
+  341  oc get pods -o wid e
+  342  oc get pods -o wide
+  343  oc new-app --help |less
+  344  oc get events 
+  345  oc get events | grep gpay
+  346  oc describe resourcequotas 
+  347  oc get  pods
+  348  oc delete all -l app=gpay 
+  349  oc new-app --as-deployment-config --name gpay httpd 
+  350  oc egt pods
+  351  oc get pods
+  352  oc get  pods
+  353  oc delete resourcequotas application-01-project-quota 
+  354  oc whoami 
+  355  oc login -u user5 -p redhat 
+  356  oc delete resourcequotas application-01-project-quota 
+  357  oc get  pods
+  358  history 
+  359  history | tail -80 > assign-05-history.txt 

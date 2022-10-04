@@ -1,0 +1,60 @@
+  160  oc delete secret kubeadmin -n kube-system
+  161  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+  162  oc get nodes
+  163  ll
+  164  oc create -f kubeadmin_secret.yaml 
+  165  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+  166  ll
+  167  oc extract --help |less
+  168  #oc extract configmap/nginx --to=-
+  169  oc extract secret/devops-team-secret --to=-
+  170  oc extract secret/devops-team-secret -n openshift-config --to=-
+  171  oc extract secret/devops-team-secret -n openshift-config --to=.
+  172  ll
+  173  cat htpasswd 
+  174  oc describe clusterroles.rbac.authorization.k8s.io |grep -i self-provisioner
+  175  oc describe self-provisioner
+  176  oc describe clusterroles.rbac.authorization.k8s.io self-provisioner
+  177  oc describe --help |less
+  178  oc describe clusterroles self-provisioner
+  179  oc describe clusterroles.rbac.authorization.k8s.io self-provisioner |less
+  180  oc describe clusterroles.rbac.authorization.k8s.io |less
+  181  oc get clusterrolebindings | grep self-provisioner
+  182  oc describe self-provisioners
+  183  oc whoami 
+  184  oc adm policy add-cluster-role-to-user cluster-admin user6 
+  185  oc adm policy add-cluster-role-to-user cluster-admin user10
+  186  oc describe clusterrolebindings self-provisioner
+  187  oc login -u user31 -p redhat 
+  188  oc whoami 
+  189  oc whoami  -t 
+  190  oc new-project demo02-user21-project 
+  191  oc get projects.
+  192  oc login -u user5 -p redhat 
+  193  oc describe clusterrolebindings self-provisioner
+  194  oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+  195  oc describe clusterrolebindings self-provisioner
+  196  oc adm policy add-cluster-role-to-group self-provisioner devops_team_grp
+  197  oc describe clusterrolebindings self-provisioner
+  198  oc login -u user31 -p redhat 
+  199  oc get projects.
+  200  oc new-project project10
+  201  oc get groups.user.openshift.io 
+  202  oc login -u user5 -p redhat 
+  203  oc whoami 
+  204  oc get groups.user.openshift.io 
+  205  oc login -u user6 -p redhat 
+  206  oc whoami 
+  207  oc logout 
+  208  oc login -u user8 -p redhat 
+  209  oc whoami 
+  210  oc new-project test01 
+  211  oc whoami 
+  212  oc login -u user5 -p redhat 
+  213  oc whoami
+  214  oc describe clusterrolebindings |less
+  215  oc describe clusterrolebindings |grep cluster-admin
+  216  history 
+  217  history |less
+  218  history | tail -60 assign-03-history.txt 
+  219  history | tail -60 > assign-03-history.txt 

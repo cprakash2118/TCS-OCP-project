@@ -1,0 +1,25 @@
+   98  mv application-0* assign-01
+   99  ll
+  100  mv assign-01-step03.txt devops_team oauth-02.yaml oauth.yaml sre_team assign-01/
+  101  ll
+  102  oc aadm --help |less
+  103  oc adm --help |less
+  104  oc adm group --help |less
+  105  for x in `cat`; do oc adm groups new $x ; done
+  106  oc get  groups.user.openshift.io 
+  107  oc adm groups add-users sre_team_grp user1 user1 user3 user4 user5 
+  108  oc get  groups.user.openshift.io 
+  109  for x in {6..10}; do oc adm groups add-users devops_team_grp $x; done
+  110  oc get groups.user.openshift.io 
+  111  oc adm groups remove-users 6
+  112  oc get groups.user.openshift.io 
+  113  oc adm groups remove-users devops_team_grp 6
+  114  for x in {7..10}; do oc adm groups remove-users devops_team_grp $x; done
+  115  for x in {6..10}; do oc adm groups add-users devops_team_grp user$x; done
+  116  oc get groups.user.openshift.io 
+  117  for x in {11..30}; do oc adm groups add-users application-01_team_grp user$x; done
+  118  for x in {31..50}; do oc adm groups add-users application-02_team_grp user$x; done
+  119  for x in {51..70}; do oc adm groups add-users application-03_team_grp user$x; done
+  120  oc get  groups.user.openshift.io 
+  121  history 
+  122  history | tail -25 > TCS-OCP-project/assign-02-history.txt 

@@ -1,0 +1,25 @@
+  220  ll
+  221  oc whoami 
+  222  oc new-project application-01-project 
+  223  oc new-project application-02-project 
+  224  oc new-project application-03-project 
+  225  oc projects | grep proje
+  226  oc delete project demo02-user21-project
+  227  oc delete project project-user30
+  228  oc projects | grep proje
+  229  oc delete project project-user30
+  230  oc projects | grep proje
+  231  oc adm policy add-cluster-role-to-user admin user11 -n application-01-project
+  232  oc adm policy add-cluster-role-to-user admin user12 -n application-01-project
+  233  oc adm policy add-cluster-role-to-user admin user13 -n application-01-project
+  234  for x in {14.25}; do oc adm policy add-role-to-user edit user$x -n application-01-project; done
+  235  for x in {14..25}; do oc adm policy add-role-to-user edit user$x -n application-01-project; done
+  236  oc adm policy remove-cluster-role-from-user admin user12
+  237  oc adm policy remove-cluster-role-from-user admin user11
+  238  oc adm policy remove-cluster-role-from-user admin user13
+  239  oc adm policy add-role-to-user admin user11 -n application-01-project
+  240  oc adm policy add-role-to-user admin user12 -n application-01-project
+  241  oc adm policy add-role-to-user admin user13 -n application-01-project
+  242  for x in {26..30}; do oc adm policy add-role-to-user view user$x -n application-01-project; done
+  243  history 
+  244  history | tail -25 > assign-04-history.txt

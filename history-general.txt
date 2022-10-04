@@ -1,0 +1,370 @@
+    1  ls -lrt
+    2  exit
+    3  ls -lrt
+    4  ls -lrta
+    5  exit
+    6  exit
+    7  oc whoami 
+    8  ssh root@utility 
+    9  mkdir work 
+   10  pwd
+   11  cd work/
+   12  pwd
+   13  ll
+   14  vim mypass.txt
+   15  source mypass.txt 
+   16  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+   17  vim mypass.txt 
+   18  . mypass.txt 
+   19  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+   20  ll
+   21  if [ -f sre_team ]; then
+   22  for x in {1..5}; do if [ -f sre_team ]; then htpasswd -b -B sre_team user$x redhat; else htpasswd -c -b -B sre_team user$x redhat; fi; done
+   23  ll
+   24  cat sre_team 
+   25  for x in {6..10}; do if [ -f devops_team ]; then htpasswd -b -B devops_team user$x redhat; else htpasswd -c -b -B devops_team user$x redhat; fi; done
+   26  ll
+   27  cat devops_team 
+   28  cat sre_team 
+   29  for x in {11..30}; do if [ -f application-01_team ]; then htpasswd -b -B application-01_team user$x redhat; else htpasswd -c -b -B application-01_team user$x redhat; fi; done
+   30  cat application-01_team 
+   31  for x in {31..50}; do if [ -f application-02_team ]; then htpasswd -b -B application-02_team user$x redhat; else htpasswd -c -b -B application-02_team user$x redhat; fi; done
+   32  for x in {51..70}; do if [ -f application-03_team ]; then htpasswd -b -B application-03_team user$x redhat; else htpasswd -c -b -B application-03_team user$x redhat; fi; done
+   33  history > assign-01-step03.txt
+   34  vim assign-01-step03.txt 
+   35  git clone https://github.com/cprakash2118/TCS-OCP-project
+   36  cp -rpv assign-01-step03.txt TCS-OCP-project/
+   37  cd TCS-OCP-project/
+   38  pwd
+   39  ll
+   40  git add .
+   41  git commit -m "Update Step3"
+   42  git push 
+   43  cd ..
+   44  ll
+   45  oc create secret generic sre_team_secret --from-file htpasswd=sre_team -n openshift-config 
+   46  oc create secret generic sre-team-secret --from-file htpasswd=sre_team -n openshift-config 
+   47  oc get secret -n openshift-config 
+   48  ll
+   49  oc create secret generic devops-team-secret --from-file htpasswd=devops_team -n openshift-config 
+   50  oc create secret generic application-01-team-secret --from-file htpasswd=application-01_team -n openshift-config 
+   51  oc create secret generic application-02-team-secret --from-file htpasswd=application-02_team -n openshift-config 
+   52  oc create secret generic application-03-team-secret --from-file htpasswd=application-03_team -n openshift-config 
+   53  oc get secret -n openshift-config 
+   54  oc get secret -n openshift-config  | egrep 'sre|app|devops'
+   55  history 
+   56  history | tail -15 
+   57  history | tail -15 > TCS-OCP-project/assign-01-step04.txt 
+   58  ll
+   59  oc get oauth/cluster -o yaml > oauth.yaml 
+   60  vim oauth.yaml 
+   61  oc replace -f oauth.yaml 
+   62  vim oauth.yaml 
+   63  oc replace -f oauth.yaml 
+   64  ll
+   65  cp -rpv oauth.yaml TCS-OCP-project/
+   66  oc get oauth/cluster -o yaml > oauth-02.yaml 
+   67  vim oauth-02.yaml 
+   68  oc replace -f oauth-02.yaml 
+   69  oc login -u user1 redhat 
+   70  oc login -u user1 -p redhat 
+   71  for x in {1..70}; do oc login -u user$x redhat ; done
+   72  for x in {1..70}; do oc login -u user$x -p redhat ; done
+   73  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+   74  oc get  users
+   75  oc get  users | grep devops
+   76  oc get  users | grep application-01
+   77  #history > TCS-OCP-project/assign-01-step05.txt
+   78  history
+   79  history tail -30
+   80  history | tail -30
+   81  history | tail -32 > TCS-OCP-project/assign-01-step05.txt
+   82  ll
+   83  cp -rv oauth-02.yaml TCS-OCP-project/
+   84  cd TCS-OCP-project/
+   85  ll
+   86  mkdir assign-01
+   87  mv assign-01* assign-01
+   88  ll
+   89  mv oauth* assign-01/
+   90  ll
+   91  git add .
+   92  git status 
+   93  git commit -m "Assignment-01-complated"
+   94  git push 
+   95  cd ..
+   96  ll
+   97  mkdir assign-01
+   98  mv application-0* assign-01
+   99  ll
+  100  mv assign-01-step03.txt devops_team oauth-02.yaml oauth.yaml sre_team assign-01/
+  101  ll
+  102  oc aadm --help |less
+  103  oc adm --help |less
+  104  oc adm group --help |less
+  105  for x in `cat`; do oc adm groups new $x ; done
+  106  oc get  groups.user.openshift.io 
+  107  oc adm groups add-users sre_team_grp user1 user1 user3 user4 user5 
+  108  oc get  groups.user.openshift.io 
+  109  for x in {6..10}; do oc adm groups add-users devops_team_grp $x; done
+  110  oc get groups.user.openshift.io 
+  111  oc adm groups remove-users 6
+  112  oc get groups.user.openshift.io 
+  113  oc adm groups remove-users devops_team_grp 6
+  114  for x in {7..10}; do oc adm groups remove-users devops_team_grp $x; done
+  115  for x in {6..10}; do oc adm groups add-users devops_team_grp user$x; done
+  116  oc get groups.user.openshift.io 
+  117  for x in {11..30}; do oc adm groups add-users application-01_team_grp user$x; done
+  118  for x in {31..50}; do oc adm groups add-users application-02_team_grp user$x; done
+  119  for x in {51..70}; do oc adm groups add-users application-03_team_grp user$x; done
+  120  oc get  groups.user.openshift.io 
+  121  history 
+  122  history | tail -25 > TCS-OCP-project/assign-02-history.txt 
+  123  cd TCS-OCP-project/
+  124  ll
+  125  mkdir assign-02
+  126  mv assign-02-history.txt assign-02
+  127  ll
+  128  oc login -u user30 -p redhat 
+  129  oc whoami 
+  130  oc new-project project-user30
+  131  oc get projects
+  132  oc new-app --name gmail httpd 
+  133  oc get  pods
+  134  oc whoami 
+  135  oc get  pods
+  136  oc scale --replicas=30 deployment gmail 
+  137  oc get  pods
+  138  oc scale --replicas=2 deployment gmail 
+  139  oc get  pods
+  140  oc login -u user21 -p redhat 
+  141  oc get projects.
+  142  oc get projects
+  143  oc new-app --name facebook httpd 
+  144  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+  145  oc whoami 
+  146  oc adm policy add-cluster-role-to-group cluster-admin sre_team_grp
+  147  oc get users | grep sre
+  148  oc login -u user5 -p redhat 
+  149  oc projects | grep kube 
+  150  oc get secret -n kube-system
+  151  oc get secret -n kube-system | grep kubeadmin 
+  152  oc get secret kubeadmin -o yaml > kubeadmin_secret.yaml 
+  153  oc get secret kubeadmin -o yaml -n kube-system > kubeadmin_secret.yaml 
+  154  vim kubeadmin_secret.yaml 
+  155  oc get secret -n kube-system | grep kubeadmin 
+  156  oc whoami 
+  157  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+  158  oc login -u user5 -p redhat 
+  159  oc get secret kubeadmin -n kube-system
+  160  oc delete secret kubeadmin -n kube-system
+  161  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+  162  oc get nodes
+  163  ll
+  164  oc create -f kubeadmin_secret.yaml 
+  165  oc login -u kubeadmin -p ${_kube_pass} ${_api_url_c1}
+  166  ll
+  167  oc extract --help |less
+  168  #oc extract configmap/nginx --to=-
+  169  oc extract secret/devops-team-secret --to=-
+  170  oc extract secret/devops-team-secret -n openshift-config --to=-
+  171  oc extract secret/devops-team-secret -n openshift-config --to=.
+  172  ll
+  173  cat htpasswd 
+  174  oc describe clusterroles.rbac.authorization.k8s.io |grep -i self-provisioner
+  175  oc describe self-provisioner
+  176  oc describe clusterroles.rbac.authorization.k8s.io self-provisioner
+  177  oc describe --help |less
+  178  oc describe clusterroles self-provisioner
+  179  oc describe clusterroles.rbac.authorization.k8s.io self-provisioner |less
+  180  oc describe clusterroles.rbac.authorization.k8s.io |less
+  181  oc get clusterrolebindings | grep self-provisioner
+  182  oc describe self-provisioners
+  183  oc whoami 
+  184  oc adm policy add-cluster-role-to-user cluster-admin user6 
+  185  oc adm policy add-cluster-role-to-user cluster-admin user10
+  186  oc describe clusterrolebindings self-provisioner
+  187  oc login -u user31 -p redhat 
+  188  oc whoami 
+  189  oc whoami  -t 
+  190  oc new-project demo02-user21-project 
+  191  oc get projects.
+  192  oc login -u user5 -p redhat 
+  193  oc describe clusterrolebindings self-provisioner
+  194  oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+  195  oc describe clusterrolebindings self-provisioner
+  196  oc adm policy add-cluster-role-to-group self-provisioner devops_team_grp
+  197  oc describe clusterrolebindings self-provisioner
+  198  oc login -u user31 -p redhat 
+  199  oc get projects.
+  200  oc new-project project10
+  201  oc get groups.user.openshift.io 
+  202  oc login -u user5 -p redhat 
+  203  oc whoami 
+  204  oc get groups.user.openshift.io 
+  205  oc login -u user6 -p redhat 
+  206  oc whoami 
+  207  oc logout 
+  208  oc login -u user8 -p redhat 
+  209  oc whoami 
+  210  oc new-project test01 
+  211  oc whoami 
+  212  oc login -u user5 -p redhat 
+  213  oc whoami
+  214  oc describe clusterrolebindings |less
+  215  oc describe clusterrolebindings |grep cluster-admin
+  216  history 
+  217  history |less
+  218  history | tail -60 assign-03-history.txt 
+  219  history | tail -60 > assign-03-history.txt 
+  220  ll
+  221  oc whoami 
+  222  oc new-project application-01-project 
+  223  oc new-project application-02-project 
+  224  oc new-project application-03-project 
+  225  oc projects | grep proje
+  226  oc delete project demo02-user21-project
+  227  oc delete project project-user30
+  228  oc projects | grep proje
+  229  oc delete project project-user30
+  230  oc projects | grep proje
+  231  oc adm policy add-cluster-role-to-user admin user11 -n application-01-project
+  232  oc adm policy add-cluster-role-to-user admin user12 -n application-01-project
+  233  oc adm policy add-cluster-role-to-user admin user13 -n application-01-project
+  234  for x in {14.25}; do oc adm policy add-role-to-user edit user$x -n application-01-project; done
+  235  for x in {14..25}; do oc adm policy add-role-to-user edit user$x -n application-01-project; done
+  236  oc adm policy remove-cluster-role-from-user admin user12
+  237  oc adm policy remove-cluster-role-from-user admin user11
+  238  oc adm policy remove-cluster-role-from-user admin user13
+  239  oc adm policy add-role-to-user admin user11 -n application-01-project
+  240  oc adm policy add-role-to-user admin user12 -n application-01-project
+  241  oc adm policy add-role-to-user admin user13 -n application-01-project
+  242  for x in {26..30}; do oc adm policy add-role-to-user view user$x -n application-01-project; done
+  243  history 
+  244  history | tail -25 > assign-04-history.txt
+  245  ll
+  246  oc project -q
+  247  oc login -u user15 -p redhat 
+  248  oc project -q
+  249  oc whoami 
+  250  oc describe rolebindings |less
+  251  oc describe rolebindings.rbac.authorization.k8s.io |less
+  252  oc login -u user11 -p redhat 
+  253  oc describe rolebindings.rbac.authorization.k8s.io |less
+  254  oc login -u user16 -p redhat 
+  255  oc whoami 
+  256  oc whoami -t
+  257  oc project -q
+  258  oc project application-02-project
+  259  podman pull registry.redhat.io/rhel8/mysql-80:1
+  260  podman login registry.redhat.io
+  261  podman pull registry.redhat.io/rhel8/mysql-80:1
+  262  podman images
+  263  oc new-app --name mysql registry.redhat.io/rhel8/mysql-80:1
+  264  oc get  pods
+  265  oc logs mysql-66dbbb9f9c-6fw78
+  266  oc create secret generic mysql --from-literal user=myuser --from-literal password=redhat123 --from-literal database=test_secrets --from-literal hostname=mysql
+  267  oc get  pods
+  268  pc get secret 
+  269  oc get secret 
+  270  oc set env --help |less
+  271  #oc set env --from=secret/mysecret dc/myapp
+  272  #oc set env --from=secret/mysql 
+  273  oc get deployment 
+  274  oc get dc
+  275  oc set env --from=secret/mysql deployment/mysql --prefix MYSQL_ 
+  276  oc get pods
+  277  oc whoami 
+  278  oc get pods
+  279  oc rsh mysql-5986f75bfb-p5f9n 
+  280  oc get  pods
+  281  oc get pods
+  282  oc new-app --name quotes --docker-image quay.io/cprakash2118/famous-quotes:2.1
+  283  oc get  pods
+  284  oc edit deployment quotes 
+  285  oc get is
+  286  oc get pods
+  287  oc logs quotes-6456b7f685-cczgp
+  288  oc get  pods
+  289  oc get  secret 
+  290  oc set env --from=secret/mysql deployment/quotes --prefix QUOTES_ 
+  291  oc get  pods
+  292  oc get  pods -w
+  293  oc rsh mysql-5986f75bfb-p5f9n 
+  294  oc get  pods
+  295  oc get svc 
+  296  oc describe svc mysql 
+  297  oc describe svc quotes 
+  298  oc det deployment 
+  299  oc get deployment 
+  300  oc get is 
+  301  oc get route 
+  302  oc expose service quotes 
+  303  oc get  routes 
+  304  oc whoami --show-console 
+  305  oc whoami 
+  306  oc rsh mysql-5986f75bfb-p5f9n 
+  307  oc whoami 
+  308  oc logout 
+  309  oc login -u user28 -p redhat 
+  310  oc project -q
+  311  oc get  pods
+  312  oc scale --replicas=2 deployment/mysql 
+  313  oc logout 
+  314  oc login -u user5 -p redhat 
+  315  oc project -q 
+  316  oc create quota --help |less
+  317  #oc create quota my-quota --hard=cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=10
+  318  oc create quota application-01-project-quota --hard=cpu=1,memory=1G,pods=10,services=4,replicationcontrollers=10,secrets=20,persistentvolumeclaims=5 -n application-01-project
+  319  oc describe resourcequotas -n application-01-project
+  320  vim limit.yaml 
+  321  oc create -f limit.yaml --save-config -n application-01-project
+  322  oc describe limitranges -n application-01-project
+  323  oc get pods
+  324  oc new-app --name gmail httpd 
+  325  oc get  pods
+  326  oc describe groups.user.openshift.io |less
+  327  oc who
+  328  oc describe pod gmail-75d47f9d44-bg22t |less
+  329  oc describe limitranges -n application-01-project
+  330  oc describe resourcequotas 
+  331  oc login -u user18 -p redhat
+  332  oc get  pods
+  333  oc new-app --name gpay httpd 
+  334  oc get  pods
+  335  oc get  svc 
+  336  oc get  deployment 
+  337  oc get pods
+  338  oc get pods -a
+  339  oc get pods --help |less
+  340  oc get  pods
+  341  oc get pods -o wid e
+  342  oc get pods -o wide
+  343  oc new-app --help |less
+  344  oc get events 
+  345  oc get events | grep gpay
+  346  oc describe resourcequotas 
+  347  oc get  pods
+  348  oc delete all -l app=gpay 
+  349  oc new-app --as-deployment-config --name gpay httpd 
+  350  oc egt pods
+  351  oc get pods
+  352  oc get  pods
+  353  oc delete resourcequotas application-01-project-quota 
+  354  oc whoami 
+  355  oc login -u user5 -p redhat 
+  356  oc delete resourcequotas application-01-project-quota 
+  357  oc get  pods
+  358  history 
+  359  history | tail -80 > assign-05-history.txt 
+  360  lscpu |less
+  361  vim limit.yaml 
+  362  pwd
+  363  oc get  pods
+  364  history 
+  365  exit
+  366  history 
+  367  cd work/
+  368  pwd
+  369  ll
+  370  history > TCS-OCP-project/history-general.txt 
