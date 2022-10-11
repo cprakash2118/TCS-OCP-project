@@ -1,0 +1,186 @@
+- Session-03 - Day-03
+######################################
+
+- Product - RHOCPv4.X 
+  RHOCPv4.10  (RHOCPv4.10.25/34).
+
+- Our Lab environment:-
+   Jump-server (Logged in - window).
+   env-server-01 (Linux - RHEL8) - Using "Web Console and oc-OpenShift-Client"
+   OCP cluster (5 node, 3 master node, 2 workers) - Adding more worker nodes
+   RHOCP - version4.10.35 -> version4.10.45
+
+- Qucik Recap:-
+  
+  Scenarios 1-
+  user1-5   (sre_team - sre_team_identity_provider, sre_team_secret)
+  user6-10  (devops_team - devops_team_identity_provider, devops_team_secret)
+  user11-30 (application-01_team - application-01_team_identity_provide, application-01_team_secret)
+  user31-50 (application-02_team - application-02_team_identity_provider, application-02_team_secret)
+  user51-70 (application-03_team - application-03_team_identity_provider, application-03_team_secret)
+  
+Scenarios 2-
+  groups:-
+  sre_team_grp   - user1-5
+  devops_team_grp  - user6-10 
+  application-01_team_grp - user11-30
+  application-02_team_grp - user31-50
+  application-03_team_grp - user51-71
+
+Scenarios 3-  
+  Setup and implement RBAC 
+  1) Assigned "cluster-admin" role to sre_team_grp
+  2) Delete kubeadmin account (delete kube:admin secret) - kube-system (namespace) 
+  3) self-provisioner remove from groups (system-authenticated-oauth)
+     NOte: By default all users Scenarios of this group (system-authenticated-oauth)
+  4) Assign "self-provisioner" to "devops_team_grp" 
+  5) Assigned "cluster-admin" role to user6 and user10 
+  6) Project creation.
+  
+Scenarios 4-  
+  sre_team_project                 (cluster-admin) 
+  devops_team_project              (self-provisioner
+  application-01_team_project      (user11/12/13 - project admin, user14-25 - Edit, user26-30 View)
+  application-02_team_project      (user31/32/33 - project admin, user34-45 - Edit, user46-50 View)
+  application-03_team_project      (user51/52/53 - project admin, user54-65 - Edit, user66-70 View)
+  
+
+Scenarios 5- Deploy application as per below details.
+
+    Project name = application-01_team_project     
+	Application Name mysql 
+	Image used: registry.redhat.io/rhel8/mysql-80:1
+	Environemnt variables as  (MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOSTNAME)
+	user=myuser      
+	password=redhat123 
+	database=test_secrets 
+	hostname=mysql
+	
+	HInt : --prefix MYSQL_ - use when deploying secret.
+	
+	Application Name: quote
+	IMage used : quay.io/cprakash2118/famous-quotes
+ ####################################################################
+ - Login to OCP cluster 
+  1) Check cluster version.
+  2) Check cluster details 
+    
+	$ oc get clusterversion 
+	$ oc get nodes (oc get nodes -o wide)
+	
+	Note: *** 
+	 - Master/control-plan are only for openshift & kubernetes applications.
+	 - worker/compute nodes manage "end user" applications 
+	 - OpenShift/Kubernetes applications running on console plan (master nodes).
+	 - master node having certified kubernetes cluster deployed on Red Hat CoreOS (RHEL coreOS is OS and it's container optomized oS) 
+	 
+	----------------
+	Solution:- 
+	- login to OCP clutser (Using cluter-admin - kubeadmin / your cluster admin)
+	- oc get nodes 
+	- oc get clusterversion 
+	- oc status 
+	- oc describe nodes | grep -i taint 
+	  In master node - taint "NO schedule"  applied.
+	  As taint implement on worker nodes 
+	  oc adm taint node master01.lab.example.com worker02 key1=value1:NoShedules  (Adding taint - Taint always refer node only).
+	  
+	  
+	  Toleration on deployment/deploymentconfig side (As taint on node).
+	  - Run the application (oc new-app --name name01 httpd )
+	  - As taint already setup on node level (on worker node only)
+	  - All applications will be in pending state.
+	    (oc get events | grep -i taint).
+	  - Apply toleration (as taint we can not remove).
+	    get your deployment/deploymentconfig yaml and update on spec (This sepc on container level "below dnspolicy").
+		get oc deployment gmail -o yaml > any_name.yaml 
+		
+		oc describe nodes | grep -i taint 
+		
+		vim any.yaml 
+		tolerations:
+		- key: "key1"
+		  operator: "Equel"
+          value: "value1"
+          effect: "NoShedules"
+   
+      $ oc replace -f    any_name.yaml  
+	  
+#####################################################
+ Configuring OpenShift Networking for Applications
+ 
+ - SDN (S/w Define Networking enabled/used on OpenShift/Kubernetes environment).
+ - How SDN used on OpenShift/Kubernetes?
+   - application(s) running/deployed on one namespace (project) can communicate with the other application running on same namespace. 
+   - Application deployed on one namespace (project) can communicate with other application which is running on other namespace.
+   - Application deployed on one of the namespace and how it communicate with service (svc).
+   - Application  deployed on one of the namespace or cluster and how it communicate/connect with public domain.
+
+
+   1) POD (via new-app , template methods) - Default we use "new-app" API to deploying application on OCP cluster.
+   2) service (svc)
+        - It provides IP address to each POD.
+        - Same applications deployed on multiple pods then SVC act as LB - RoundRobin 
+   3) deployment  - Using replica Set (Same default used in kubernetes).
+   4) deploymentconfig - (dc) 
+   5)  BuildConfig (bc)  ( code + image = build ) - main image and deployment application (Build will be available on cluster itself).
+     Note: *** 
+	  - Using BC and DC you can achive CICD.
+	  - S2I (Source 2 Image ).
+   6) secret (generic/docker-image/tls)
+   7) configmap - 
+   8) route (ingress as opeartor).
+   
+   Route in OCP is same as ingress in Kubernetes.
+   
+   Basic route - 
+     Just expose service - It creats route (SVC exposed the port outside the OCP cluster) and application can be accesible via http or https.
+	 
+	 http (LB at service)
+	 app1 (Application) --> POD1 (POD/Container) --> SVC1 (network) --> Deployment/DC-01 --> Route (route-01)   --> WB 
+	 app1 --> POD2 --> SVC1  --> Deployment/DC-01 --> Route (route-01)
+	 app1 --> POD3 --> SVC1  --> Deployment/DC-01 --> Route (route-01)
+	 
+	 https:
+	 edge          (wb to route - encrypted, route to POD - plane text)
+	 passthrogh    (web to pod - encrypted, route just forward the packages and TLS termination on pod lavel) 
+	 reencryption  (edge + passthrogh) (wb to route - encrypted, route to pod - encrypted).
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+   
+   
+   
+   
+   
+
+
+
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+		
+	  
+	  
+	
+	  
+	

@@ -1,0 +1,41 @@
+
+ LAB env
+
+Cluster-03  
+ - svc-node-01.example.com 
+   blr3master01.qcs.example.com 
+   blr3master02.qcs.example.com
+   blr3master03.qcs.example.com
+   blr3worker01.qcs.example.com
+   blr3wroker02.qcs.example.com
+
+  Login to OCP cluster.
+  1) Login to Window Jump system (Remote Desktop). 
+  2) Login to Linux workstation (as of now using anydesk) (https://anydesk.com) - Download the application and then use it.
+     Note: Directly use web client application (https://go.anydesk.com)
+     
+     Required credentials for anydesk.
+     user name - anydesk ID 
+     password  - shared 
+ 
+    labuser/redhat 
+    Once login to Linux workstation then open gnome-terminal 
+  3) Connect to Cluster-03 network 
+     ocplab (Alias setup)
+	 ocplab 
+
+     NOte: 2 times.
+   
+  4) Now login to Redv Hat OCP cluster.
+     
+	 1) Method-1st 
+	 $ export KUBECONFIG=/ocp-install/auth/kubeconfig 
+	 $ env | grep KUBECONFIG
+	 Note: If you involved with some wrong kubeconfig file then, "unset KUBECONFIG" then set with correct one.
+  	 
+	 2) Method-2nd 
+	  $ cat /ocp-install/auth/kubeconfig | grep server   (You will get API URL)
+	  $ cat /ocp-install/auth/kubeadmin-passwd 
+	  $ oc login -u kubeadmin -p passwd - api_url
+	  
+	  
