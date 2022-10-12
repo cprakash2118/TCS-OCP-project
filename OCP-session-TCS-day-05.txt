@@ -1,0 +1,134 @@
+Day-05- session
+####################
+- Kubernetes Operators 
+- Operator Framework 
+   (Operator SDK)
+   (OLM) 
+- OperatorHub (RH Marketplace).
+- OpenShift Cluster Operators.
+   1) network
+   2) ingress 
+   3) Storage 
+   4) authentication (oauth)
+   5) console 
+   6) dns
+   7) openshift-apiserver
+   8) cluster-autosacler 
+   9) image-registry 
+   10) openshift-controller-manager 
+   11) cloud-credential
+   
+###
+
+ Control plane (Master nodes)
+ Cluster1
+ blrqcs1master01-03 
+ 
+ Cluster2
+ blrqcs2master01-03 
+ 
+ 
+  - Two Systemd services (Running on each master node).
+   1) kubelet 
+   2) crio
+   
+  - Kubernetes resources (Running on Static POD)
+    1) kube-apiserver 
+	2) kube-controller-manager 
+	3) kube-schedulder 
+	4) etcd
+  - OpenShift resources (Running on Regular POD)	
+    1) openshift-apiserver
+	2) openshift-controller-manager
+	3) dns (coreDNS)
+	4) Oauth 
+	
+	
+	- Any Identity provider (htpasswd/LDAP/etc) using "oc" it will use the RestAPI and sent request to "Oauth" service.
+	- "Oauth" service forward the request to "openshift-apiserver" (This act as proxy server).
+	- "openshift-apiserver" forward the request to "kube-apiserver" - (Authentication and Autorization).
+	- "kube-apiserver" connect to "etcd" cluster and get the details about the queries and respond to "kube-apiserver".
+	- Based on respond from etcd cluster service kube-apiserver update to openshift-apiserver and then to Oauth service.
+	
+	 oc get nodes (It worked or not, when not worked means your authorization is not valid).
+
+    $ oc get nodes 
+	$ oc debug node/master   (as per our lab - oc debug node/blr1master01.qcs1.example.com).
+	$ chroot /host 
+	$ hostname -s 
+	$ crictl ps | grep kube-apiserver
+	$ exit 
+	$ exit
+	$ oc get pods -n kube-apiserver (Default two pods per nodes you can see, and it's operator running on the best node.
+	
+############
+ 
+ Kubernetes Operator:- It's an applications which invoke kubernetes API and using these API it will manage kuberntes resources.
+   - POD 
+   - Services 
+   - rc 
+   - ingress 
+
+  CR (Custom resources):- Operator defined custom resources that store ti's setting and configuration (resources and cluster information stored in CR).
+  
+  CRD - Custom resources Defination:- Systax of customer resources (CR) defined by CRD.
+  
+  Operator Framework:- 
+     Operator SDK 
+	 Operator Life Cycle Manager (OLM).
+	 
+  OperatorHub & Red Hat Marketplace (To get the Operator).
+  
+  ClusterOperator:- It's a regular operator but not managed by OLM.
+  
+  managed by "OpenShift Cluster Version Operator" - also called 1st level operator. 
+  Rest all operators are 2nd level.
+  
+  
+  OPenShift cluster operator provide openshift extenstion API and infrastructure services:-
+  
+   - Oauth server (authentication)
+   - Core DNS     (dns) etc 
+   - Web Console 
+   - S2I
+	 
+#####################################
+	 
+   Operator in Kubernetes:-
+   - cloud-controller-manager
+   - kube-controller-manager
+   
+  - cloud-controller-manager:-
+     Node controller - used for managing node resources.
+     Route controller - used for managing cloud route for node resources communications.
+	 service controller - used for managing cloud load balancers to publish service.
+
+  - kube-controller-manager:-
+       Used for controlling/managing the kubernetes resources (Those are not going to cloud providers).
+	
+###################################
+  Operator in OpenShift.
+    - OpenShift operators implements openshift features (self-healing, update, admin tasks).
+	- Openshift uses operators to manage the cluster by controlling tasks (Upgrades, self-healing, other features).
+	  Eg: Cluster Version Operator manage cluster operator and it's upgardes.
+	  
+  
+	 
+          
+   
+	
+	
+	
+	
+	
+	
+	
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
