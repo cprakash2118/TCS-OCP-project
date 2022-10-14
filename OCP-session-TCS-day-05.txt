@@ -112,23 +112,162 @@ Day-05- session
 	- Openshift uses operators to manage the cluster by controlling tasks (Upgrades, self-healing, other features).
 	  Eg: Cluster Version Operator manage cluster operator and it's upgardes.
 	  
-  
-	 
-          
+==========================
+Continue to 
+
+Objective: Install the Openshift metering operator using the OLM (via CLI).
+Solution:
+Reference link: 
+https://docs.openshift.com/container-platform/4.10/operators/admin/olm-adding-operators-to-cluster.html
+
+##Phase-01
+Step 1) Login to OCP cluster using cluster-admin "kubeadmin".
+
+ $ oc login -u kubeadmin ${_kube_pass} ${_api_url}
+ $ oc whoami 
+ $ oc whoami -t 
+ 
+
+Step 2) Create file "metering-operator-namespace.yaml"
+apiVersion: v1
+kind: Namespace 
+metadata: 
+   labels:
+     openshift.io/cluster-monitoring: "true"
+   name: openshift-metering 
+
+Step 3) Apply the new changes.
+  $ oc apply -f file_name 
+  $ oc apply -f  metering-operator-namespace.yaml 
+	
+
+Step 4) Verify task.
+   $ oc projects | grep openshift-metering
    
+   
+   
+##Phase-02 
+Step 5)
+Creating group for the operator 
+Note: Whenever we create operator (Installing operator) using OLM always required a group that matches the namespace name.
+
+- Creating file with the name "metering-operator-group.yaml"
+apiVersion: operator.coreos.com/v1 
+kind: OperatorGroup
+metadata:
+   name: openshift-metering
+   namespace: openshift-metering
+spec: 
+  targetNamespaces:
+    - openshift-metering 
 	
-	
-	
-	
-	
-	
-	
+STep 6)  
+ Creating operator group.
+ $ oc apply -f metering-operator-group.yaml
  
  
+##Pashe-03 Creating Operator Subscription:-
+Steo 7)
+- Creating file with the name "metering-operator-subcription.yaml"
+apiVersion: operator.coreos.com/v1 
+kind: Subscription
+metadata:
+   name: ge-openshift-metering
+   namespace: openshift-metering
+spec: 
+  channel: "4.5"
+  name: metering-ocp 
+  source: redhat-operators 
+  sourceNamespace: openshift-marketplace
+  
+  
+STep 7)  
+ Creating Subscription object.
+ $ oc apply -f metering-operator-group.yaml
  
+
+Step 8) Verify - Operator installed successfully or not.
+
+  $ oc project openshift-metering 
+  $ oc describe sub <Subscription-Name>
+  $ oc describe sub ge-openshift-metering
+  
+  or 
+  $ oc describe sub <Subscription-Name>     -n namespace 
+  $ oc describe sub ge-openshift-metering  -n openshift-metering
+  
+  This is called operator installation using OLM 
+
+####################################################
+S2I (Source To Image):-
+
+- Deployment Application 
+  1) Build app outside OCP cluster and Deploy app in OCP cluster.
+  oc new-app --name app01 --docker-image image-name
+  
+  2) Build app within OCP cluster and Deployment also within OCP only.
+  oc new-app --name app02 --as-deployment-config image~https://github.com/app1.git 
+  oc new-app --name app02 --as-deployment-config --build-env <abc> image~https://github.com/app1.git 
+   - POD 
+   - SVC 
+   - DC
+   - BC 
+   - IS 
+   - Route (To access the application from outside OCP cluster).
+   
+  
+ Note: CI - BC and CD - DC --> CI/CD workflow.
  
+ ########
+ Jenkins Declarative piplines:-
+ Continuious Integration (CI) and Continuious Deployment (CD) - S2I (BC/DC)
+ CI/CD & GitOps Processes:-
+
+ CI/CD workflow --> 
+
+  Developer -> Version Control System  (GIT) ->  CI processes initiated (Build S/w -> Run Unit tests -> Save Artifacts) -> CD  
  
- 
- 
+ CD processes take input from "Stored Artifact Store" Find/Create Target Env --> Deploy Artifact --> Testing (Smoke/OLM Test Artifacts) 
+  NOte: Artifacts stored in repo 
+  
+  Tools for CI/CD  (S2I - CI/CD workflow).
+  
+  
+### Introducing Continuous Integration (CI) and Continuous Deployment (CD)
+Jenkins is currently the most popular tool for automating software development processes. Created as a tool for managing software build processes, Jenkins evolved to deliver the Continuous Integration (CI) process, and is also flexible enough to support Continuous Deployment (CD) and GitOps processes.
+  
+### Continuous Integration (CI) Workflows
+Continuous Integration (CI) is the process of automatically building a software piece from its source code and any required dependencies, such as programming libraries, whenever the source code changes.
+
+  
+### Continuous Delivery (CD) Workflows
+Continuous Deployment (CD) is the process of automatically deploying a software piece to a target environment, such as development or production, whenever the source code changes.
+
+To be successful and reliable, CI workflows also require automated testing, such as integration testing. It is also common to add manual approval gates to a CI workflow because other testing activities, such as functional testing and user acceptance testing, might not be fully automated.
+
+
+### Describing Essential Jenkins Concepts
+Jenkins is a very sophisticated automation server. The following are essential concepts and terms for using and managing Jenkins.
+
+- Project (or Job):- A script that describes a workflow that Jenkins should perform, such as building an application.
+
+- Pipeline:- A kind of Job that follows the pipeline concept and syntax and describes a workflow as a sequence of steps that are grouped in stages.
+
+- Build:- A single execution of a project, including its runtime logs and output artifacts. This term comes from Jenkins' origins as a software build server.
+
+- Node :- A server or container that runs builds.
+- Worker:- A thread in a master node that either runs a build or orchestrates available agents.
+- Workspace :- A file system folder, dedicated to a project and sometimes also to a node, where builds store data that is either temporary, or reused between multiple builds of the same project.
+
+- Credential :- A Jenkins construct that provides projects and builds with access credentials to external
+resources. There are different credentials to store user name and password pairs, SSH keys,
+and other credential types.
+
+Plug-in :- Almost all of Jenkins functionality is extensible by plug-ins written in Java. There are many community plug-ins that support different kinds of nodes, credentials, and programming languages.
+
+### Types of Jenkins Nodes - There are two kinds of Jenkins nodes:
+Master :- Stores definitions of projects and their builds.
+Agent  :-  Run builds (or parts of a build) under the control of a master node  
+  
  
   
