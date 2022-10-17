@@ -119,8 +119,78 @@ oc process jenkins-persistent --parameters -n openshift
 	 
 	 Apps running on mentioned application (npdejs or java based).
 	 
-    $    
+
+###########################################################################
+ Configure OpenShift using GitOps and Jenkins:-
+ - Creating jenkins pipeline that applies htpasswd identity provider settting and RBAC permission from YAML in a git repository.
+
+
+https://github.com/cprakash2118/gitops-gitops
+
+ - login to OCP cluster using htpasswd 
+  Step-1 ) Create user's credentials file via htpasswd utility (htpasswd-upload-file)
+       admin:weidjskdfhjksdfjlksdlk
+	   developer01:kasjhdkjsahdjkashk
+	   developer02:jhgashgdjhasgdjsa
+	   testuser1:aksjdhjksahdkja
+	   testuser2:kasjdhskjahdskja
+  
+  Step 2) Create secret (type = generic) (namespace=openshift-config)
+ 
+  Step 3) Edit and update oauth resource (oc get oauth/cluster -o yaml > oauth_file.yaml ).
+          oc replace -f oauth_file.yaml 
+  Step 4)  Login to cluster using above account.
+         $ oc login -u testuser1  -p redhat api_url  
+	   
+ 
+https://github.com/cprakash2118/gitops-gitops
+
+  config   (Related to configuration operations).
+  
+  oauth.yaml   - oauth cluster authentication service 
+  htpasswd-secret-data   - User's credentials
+  project-leasder.yaml   - Project leader groups and memebers.
+  self-provisioners.yaml - Create projects 
+  kustomization.yaml - It will generate htpasswd secret.  
+  
+  POD (Application)
+  SVC 
+  DC (Deploy apps)
+  BC (Create Build)
+  =======================
+  
+  git clone https://github.com/cprakash2118/gitops-gitops
+  
+  Login as cluster-admin (admin)
+  oc login -u admin -p password API_URL 
+  
+  Note: Switch to gitops-deploy projects (In this project we have implemented Jenkins pipelines).
+
+  This OCP configuration can be consider as application (Make changes on configration part).
+  
+  deployment (Along with - nodejs jenkins master node also).
+  
+  Access to jenkins:-
+  oc get route -n gitops-deploy 
+  
+  #########################################################################################
+  
+  Configuring Trusted TLS certificate.
+  - Change the wildcard certificate used by the ingress controller operator 
+  - Configure an application to use the trusted certificate bundle.
+  - Describe/Explanation of common issues with respect to OCP certificate 
+  
+  Example: re-encryption (Edge & Passthrough - Mounting certificate to POD) 
+  
+  
+  COnfigure Enterprise Authentication (Open LDAP or IPA or AD).
+  - Configure OCP to authenticate using an LDAP user Credentials
+  - Automate group sync with LDAP.
+  
+  
+  
+  
 	
 	
-   
+    
    
