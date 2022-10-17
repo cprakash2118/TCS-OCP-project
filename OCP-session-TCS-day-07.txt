@@ -60,10 +60,67 @@ oc process jenkins-persistent --parameters -n openshift
 - Deploy the template using new-app 
  oc new-app --template jenkins-persistent
  ==================
- I will continue on this page (As above Pipeline workflow did't worked 
+ I will continue on this page (As above Pipeline workflow did't worked)
  
+ ##################################
+ 1) Deploying jenkins on RHOCP (OpenShift) using standard templates and images streams (IS).
+ 
+ Step 1) Login to OCP via normal account (RBAC = edit/admin - specific to project).
+ 
+      developer/developer (edit/admin access via htpasswd - (namespace=getops-deploy).
+	  admin/redhat (cluster-admin via htpasswd)
    
-   
-   
+ Step 2) Login to github (https://githib.com) and create public repository.
+    https://github.com/cprakash2118/gitops-deploy
+	
+
+ Step 3) Updated/commited below files to above git repo (gitops-deploy).
+
+   	jenkinsfile 
+	app.js
+	package.json 
+
+  Explanation:
+    jenkinsfile - (Defined workflow stages - Create --> build --> deploy --> test --> Final Outcome).  
+     app.js     - application 
+	 package.json - supportive files (provides input to application).
+	 
+ Step 4) Listing jenkins standard templates.
+     $ oc get template -n openshift | grep -w ^jenkins 
+	 jenkins-ephemeral 
+	 jenkins-presistent 
+	 
+    Note: 
+	  $ oc get template jenkins-presistent -n openshift -o yaml > jenkins-presistent-file.yaml 
+	  
+	  
+  Step 5) Listing the parameters of jenkins temaplate 
+    $ oc process jenkins-persistents --parameters -n openshift.
+	
+  Step 6) Deploying jenkins pipeline using temaplte (jenkins-persistents).
+     $ oc new-app --template jenkins-persistent -p JENKINS_IMAGE_STREAM_TAG=jenkins:v4.8
+	 
+	 $ oc get all (pod, svc, route, is)
+	 
+	 $ oc project -q 
+	 $ oc create serviceaccount jenkins 
+     $ oc adm policy add-cluster-roles-user self-provisinor -z jenkins -n <current namespace > (-n gitops-deploy).
+
+     $ oc get pods  (Check pods and verify the jenkins deployment).
+     $ oc logs jenkins-1-jdsakl	(pod name).
+     NOte: "Up and running"
+
+     Now login to Jenkins dashboad using openshift 
+   Then create multibranch pipeline project for the application (github.com/cprakash/gitops-deploy).
+
+
+   Verify your jobs master node.
+     $ oc get pods
+	 
+	 Apps running on mentioned application (npdejs or java based).
+	 
+    $    
+	
+	
    
    
