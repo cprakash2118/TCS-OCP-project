@@ -1,0 +1,100 @@
+  323  ll
+  324  nslookup ibm.ocp4.example.com
+  325  nslookup idm.ocp4.example.com
+  326  oc login -u admin -p redhat 
+  327  oc create secret generic ldap-secret --from-literal bind/Password='Redhat123@!' -n openshift-config 
+  328  oc create secret generic ldap-secret --from-literal bindPassword='Redhat123@!' -n openshift-config 
+  329  wget idm.ocp4.example.com/ipa/config/ca.crt
+  330  ls
+  331  ll
+  332  vim ca.crt 
+  333  oc get secret -n openshift-config 
+  334  oc get cm -n openshift-config 
+  335  oc create configmap ca-config-map -n openshift-config --from-file ca.crt 
+  336  oc get cm -n openshift-config 
+  337  ll
+  338  vim ldap-cr.yml 
+  339  cp -rpv ldap-cr.yml ldap-cr.yml.bkp
+  340  vim ldap-cr.yml
+  341  oc get secret -n openshift-config 
+  342  vim ldap-cr.yml
+  343  oc get cm -n openshift-config 
+  344  vim ldap-cr.yml
+  345  oc apply -f ldap-cr.yml 
+  346  oc get  pods -n openshift-authentication 
+  347  oc get  pods -n openshift-authentication  
+  348  oc get  pods -n openshift-authentication 
+  349  oc extract --help |less
+  350  # oc extract configmap/nginx --to=-
+  351  oc extract secret/ldap-secret --to=-
+  352  oc extract secret/ldap-secret --to=- -n openshift-config 
+  353  ll
+  354  ls
+  355  oc extract secret/ldap-secret --to=- -n openshift-config 
+  356  oc login -u openshigy-user -p opeshift-user
+  357  oc login -u openshigy-user -p openshift-user
+  358  oc login -u openshifg-user -p openshift-user
+  359  oc login -u openshift-user -p openshift-user
+  360  oc get pods
+  361  oc get pods -n openshift-config
+  362  oc get pods -n openshift-authentication 
+  363  oc login -u openshift-user -p openshift-user
+  364  oc get  events
+  365  oc get  events |less
+  366  oc get  events
+  367  oc login -u openshift-user -p openshift-user
+  368  oc whoami 
+  369  ll
+  370  history 
+  371  history |less
+  372  oc get cm 
+  373  oc get cm -n openshift-config 
+  374  ls
+  375  ll
+  376  vim ldap-cr.yml
+  377  oc apply -f ldap-cr.yml 
+  378  oc get pods -n openshift-authentication 
+  379  oc extract secret/ldap-secret --to=- -n openshift-config 
+  380  oc login -u openshift-user -p opensgift-user
+  381  oc login -u openshift-user -p openshift-user
+  382  oc get pods -n openshift-authentication 
+  383  oc login -u openshift-user -p openshift-user
+  384  ls
+  385  vim ldap-cr.yml
+  386  oc login -u openshift-user -p openshift-user
+  387  oc apply -f ldap-cr.yml 
+  388  oc login -u openshift-user -p openshift-user
+  389  oc get pods -n openshift-authentication 
+  390  oc login -u openshift-user -p openshift-user
+  391  oc get pods -n openshift-authentication 
+  392  oc login -u openshift-user -p openshift-user
+  393  pwd
+  394  ll
+  395  oc login -u openshift-user -p openshift-user
+  396  timedate
+  397  timedatectl 
+  398  oc login -u openshift-user -p openshift-user
+  399  ls
+  400  ll
+  401  vim ldap-cr.yml
+  402  oc apply -f ldap-cr.yml 
+  403  oc login -u openshift-user -p openshift-user
+  404  oc get  users
+  405  oc login -u admin -p redhat 
+  406  oc get users
+  407  pwd
+  408  ll
+  409  vim ca.crt 
+  410  git clone https://github.com/cprakash2118/TCS-OCP-project
+  411  ll
+  412  cd TCS-OCP-project/
+  413  pwd
+  414  ll
+  415  mkdir ldap-auth 
+  416  cd ldap-auth/
+  417  pwd
+  418  cp -rv ../../ldap-cr.yml* .
+  419  cp -rv ../../ca.crt .
+  420  ll
+  421  history |less
+  422  history | tail -100  > histtory_ldap.txt
