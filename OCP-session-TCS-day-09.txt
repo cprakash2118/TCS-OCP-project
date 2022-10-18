@@ -1,0 +1,84 @@
+  #########################################################################################
+  
+  
+  COnfigure Enterprise Authentication (Open LDAP or IPA or AD).
+  - Configure OCP to authenticate using an LDAP user Credentials
+  - Automate group sync with LDAP.
+ 
+  
+  Configuring Trusted TLS certificate.
+  - Change the wildcard certificate used by the ingress controller operator 
+  - Configure an application to use the trusted certificate bundle.
+  - Describe/Explanation of common issues with respect to OCP certificate 
+  
+  Example: re-encryption (Edge & Passthrough - Mounting certificate to POD) 
+    
+
+  - Adding multiple compute nodes .
+  
+  
+=====================================
+No of users  (N number of users).
+No of groups (N number of groups).
+
+ - Identity Provider 
+    1) htpasswd   ## 
+	2) LDAP       ## 
+	
+	3) Keystone 
+	4) Basic authentication 
+	5) GitHUb or GitHub Enterprise
+	6) Request header 
+	  etc 
+	  
+
+ - Authentication Method:-
+  1) OAuth Access Token: 
+  2) Certificate based (X.509 Client Certificate):  
+	  
+	  
+	  
+  - LDAP server idm.ocp4.example.com 
+  - OCP clutser (*.ocp4.example.com).
+  
+  Step 1) Data (LDAP data / htpasswd)
+  Step 2) Create Secret
+         Note: Creating secret for LDAP/IDM admin user password, identity provider is LDAP
+		 
+		 oc create secret generic <name_of_secret> --from-literal bindPassword=${LDAP_ADMIn_PASSWD} -n openshift-config 
+		 
+  Step 3) Certification Creations (CA for LDAP/IDM).
+        oc create configmap ca-config-map ca.crt=file_name.crt -n openshift-config 
+		
+  Step 4) Update in Oauth file.
+        $ oc get oauth/cluster -o yaml > ouath_ldap.yaml 
+		 
+		 
+  Step 5) Openshift-auth  (resource)
+           Define and apply
+  
+  Step 6) login to OCP using admin 
+         oc login -u admin -p ${LDAP_ADMIN_PASSWORD}
+
+		
+         oc get pods -n openshift-authentication 
+		 
+==========================================================
+  LDAPSYNC - showing errors - I will fix and update to GitHub - same link (LdapSync)
+  
+  
+		 
+		 
+		 
+		 ##################
+		   Configuring Trusted TLS certificate.
+  - Change the wildcard certificate used by the ingress controller operator 
+  - Configure an application to use the trusted certificate bundle.
+  - Describe/Explanation of common issues with respect to OCP certificate 
+  
+  
+  - Adding any additional node to OCP cluster.
+    - Provide worker.ign (via http)
+	
+	
+  
