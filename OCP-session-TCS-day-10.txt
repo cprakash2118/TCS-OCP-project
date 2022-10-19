@@ -1,0 +1,60 @@
+
+LDAPSYNC - showing errors - I will fix and update to GitHub - same link (LdapSync)
+
+ - Create a cronJobs - Main purpose of cronjob here is to synchronization (OCP cluster Sync with LDAP).
+ - Use the oc policy (oc adm policy) to list user and groups - RBAC policies implements.
+ 
+ Step 1) Login to OCP cluster using "cluster-admin" - admin/user1 
+ 
+ Step 2) Download the certificate from LDAP server (ca for LDAP). - (Trusted sync between OCP and LDAP).
+ 
+ Step 3) ldap-sync.yml (Update the input)
+       bindPassword: password123 (LDAP admin password).
+	   update ca: certificate-ca.crt
+
+ Step 4) oc adm group sync --sync-config  ldap-sync.yml
+ 
+      Note: Sync without any action.
+ 
+ Step 5) oc new-project "name of the project" 
+         oc new-project auth-padapsync 
+		 
+		 oc create -f rbac.yml 
+		 
+ Step 6) Cronjobs file need to execute.
+         Must be having "configmap and secret".
+
+######################		 
+ 
+ 
+ Adding Compute nodes to the OCP cluster.
+ 
+ - Node Scaling- 
+ 
+ - Build OCP cluster (Using IPI or UPI methods)
+   - bootstrap.ign 
+   - master.ign 
+   - worker.ign 
+   
+  - Machine API automatically perform scalling operations (w.r.t support cloud provides).
+  
+  In UPI, you must manually provision new instance. (It's depends on business strategy and IT related process).
+  Basic steps for the same.
+  
+  1) Update the compute node ignition file with an updated TLS certificate. 
+      FIle - worker.ign
+  2) Install RHEL CoreOS from ISO or using PXE (Preboot eXcution Environment - "PXE" boot).
+  3) Add the new instance to the ingress load balancer.
+  4) Approve Certificate Signing Requests (CSRs) to allow the compuate node to join OCP cluster. 
+  
+  
+  Explain Ignition:-
+  
+  
+  
+  
+  
+ 
+ 
+ 
+ 
